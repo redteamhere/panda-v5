@@ -1,0 +1,216 @@
+=== 系统信息 ===
+PRETTY_NAME="Ubuntu 24.04.1 LTS"
+NAME="Ubuntu"
+VERSION_ID="24.04"
+VERSION="24.04.1 LTS (Noble Numbat)"
+VERSION_CODENAME=noble
+ID=ubuntu
+ID_LIKE=debian
+HOME_URL="https://www.ubuntu.com/"
+SUPPORT_URL="https://help.ubuntu.com/"
+BUG_REPORT_URL="https://bugs.launchpad.net/ubuntu/"
+PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy"
+UBUNTU_CODENAME=noble
+LOGO=ubuntu-logo
+
+=== Node.js 版本 ===
+v18.20.8
+
+=== npm 版本 ===
+10.8.2
+
+=== bytenode 版本 ===
+/usr/lib
+└── (empty)
+
+not global
+
+=== frps 版本 ===
+0.61.1
+
+=== 监听端口 ===
+LISTEN 0      1024       127.0.0.1:3478       0.0.0.0:*    users:(("turnserver",pid=1034435,fd=262))                
+LISTEN 0      1024       127.0.0.1:3478       0.0.0.0:*    users:(("turnserver",pid=1034435,fd=260))                
+LISTEN 0      1024       127.0.0.1:3478       0.0.0.0:*    users:(("turnserver",pid=1034435,fd=261))                
+LISTEN 0      1024       127.0.0.1:3478       0.0.0.0:*    users:(("turnserver",pid=1034435,fd=259))                
+LISTEN 0      1024       127.0.0.1:3478       0.0.0.0:*    users:(("turnserver",pid=1034435,fd=258))                
+LISTEN 0      1024       127.0.0.1:3478       0.0.0.0:*    users:(("turnserver",pid=1034435,fd=257))                
+LISTEN 0      1024       127.0.0.1:3478       0.0.0.0:*    users:(("turnserver",pid=1034435,fd=252))                
+LISTEN 0      1024       127.0.0.1:3478       0.0.0.0:*    users:(("turnserver",pid=1034435,fd=245))                
+LISTEN 0      1024       127.0.0.1:3478       0.0.0.0:*    users:(("turnserver",pid=1034435,fd=233))                
+LISTEN 0      1024       127.0.0.1:3478       0.0.0.0:*    users:(("turnserver",pid=1034435,fd=231))                
+LISTEN 0      1024       127.0.0.1:3478       0.0.0.0:*    users:(("turnserver",pid=1034435,fd=224))                
+LISTEN 0      1024       127.0.0.1:3478       0.0.0.0:*    users:(("turnserver",pid=1034435,fd=217))                
+LISTEN 0      1024       127.0.0.1:3478       0.0.0.0:*    users:(("turnserver",pid=1034435,fd=210))                
+LISTEN 0      1024       127.0.0.1:3478       0.0.0.0:*    users:(("turnserver",pid=1034435,fd=199))                
+LISTEN 0      1024       127.0.0.1:3478       0.0.0.0:*    users:(("turnserver",pid=1034435,fd=196))                
+LISTEN 0      1024       127.0.0.1:3478       0.0.0.0:*    users:(("turnserver",pid=1034435,fd=189))                
+LISTEN 0      511          0.0.0.0:80         0.0.0.0:*    users:(("node",pid=2973808,fd=21))                       
+LISTEN 0      511          0.0.0.0:443        0.0.0.0:*    users:(("node",pid=2973808,fd=22))                       
+LISTEN 0      511        127.0.0.1:3000       0.0.0.0:*    users:(("node /www/wwwro",pid=2806763,fd=21))            
+LISTEN 0      511          0.0.0.0:8081       0.0.0.0:*    users:(("node /www/wwwro",pid=1226314,fd=20))            
+LISTEN 0      4096         0.0.0.0:8090       0.0.0.0:*    users:(("admin-server",pid=3776477,fd=7))                
+LISTEN 0      511        127.0.0.1:8080       0.0.0.0:*    users:(("node /www/wwwro",pid=2806763,fd=20))            
+LISTEN 0      4096         0.0.0.0:6104       0.0.0.0:*    users:(("sshd",pid=801358,fd=3),("systemd",pid=1,fd=200))
+LISTEN 0      1024    207.56.26.14:3478       0.0.0.0:*    users:(("turnserver",pid=1034435,fd=275))                
+LISTEN 0      1024    207.56.26.14:3478       0.0.0.0:*    users:(("turnserver",pid=1034435,fd=272))                
+LISTEN 0      1024    207.56.26.14:3478       0.0.0.0:*    users:(("turnserver",pid=1034435,fd=273))                
+LISTEN 0      1024    207.56.26.14:3478       0.0.0.0:*    users:(("turnserver",pid=1034435,fd=274))                
+LISTEN 0      1024    207.56.26.14:3478       0.0.0.0:*    users:(("turnserver",pid=1034435,fd=271))                
+LISTEN 0      1024    207.56.26.14:3478       0.0.0.0:*    users:(("turnserver",pid=1034435,fd=270))                
+LISTEN 0      1024    207.56.26.14:3478       0.0.0.0:*    users:(("turnserver",pid=1034435,fd=254))                
+LISTEN 0      1024    207.56.26.14:3478       0.0.0.0:*    users:(("turnserver",pid=1034435,fd=247))                
+LISTEN 0      1024    207.56.26.14:3478       0.0.0.0:*    users:(("turnserver",pid=1034435,fd=237))                
+LISTEN 0      1024    207.56.26.14:3478       0.0.0.0:*    users:(("turnserver",pid=1034435,fd=234))                
+LISTEN 0      1024    207.56.26.14:3478       0.0.0.0:*    users:(("turnserver",pid=1034435,fd=226))                
+LISTEN 0      1024    207.56.26.14:3478       0.0.0.0:*    users:(("turnserver",pid=1034435,fd=219))                
+LISTEN 0      1024    207.56.26.14:3478       0.0.0.0:*    users:(("turnserver",pid=1034435,fd=212))                
+LISTEN 0      1024    207.56.26.14:3478       0.0.0.0:*    users:(("turnserver",pid=1034435,fd=203))                
+LISTEN 0      1024    207.56.26.14:3478       0.0.0.0:*    users:(("turnserver",pid=1034435,fd=198))                
+LISTEN 0      1024    207.56.26.14:3478       0.0.0.0:*    users:(("turnserver",pid=1034435,fd=191))                
+LISTEN 0      1024    207.56.26.23:3478       0.0.0.0:*    users:(("turnserver",pid=1034435,fd=290))                
+LISTEN 0      1024    207.56.26.23:3478       0.0.0.0:*    users:(("turnserver",pid=1034435,fd=289))                
+LISTEN 0      1024    207.56.26.23:3478       0.0.0.0:*    users:(("turnserver",pid=1034435,fd=288))                
+LISTEN 0      1024    207.56.26.23:3478       0.0.0.0:*    users:(("turnserver",pid=1034435,fd=285))                
+LISTEN 0      1024    207.56.26.23:3478       0.0.0.0:*    users:(("turnserver",pid=1034435,fd=283))                
+LISTEN 0      1024    207.56.26.23:3478       0.0.0.0:*    users:(("turnserver",pid=1034435,fd=282))                
+LISTEN 0      1024    207.56.26.23:3478       0.0.0.0:*    users:(("turnserver",pid=1034435,fd=256))                
+LISTEN 0      1024    207.56.26.23:3478       0.0.0.0:*    users:(("turnserver",pid=1034435,fd=249))                
+LISTEN 0      1024    207.56.26.23:3478       0.0.0.0:*    users:(("turnserver",pid=1034435,fd=241))                
+LISTEN 0      1024    207.56.26.23:3478       0.0.0.0:*    users:(("turnserver",pid=1034435,fd=238))                
+LISTEN 0      1024    207.56.26.23:3478       0.0.0.0:*    users:(("turnserver",pid=1034435,fd=228))                
+LISTEN 0      1024    207.56.26.23:3478       0.0.0.0:*    users:(("turnserver",pid=1034435,fd=221))                
+LISTEN 0      1024    207.56.26.23:3478       0.0.0.0:*    users:(("turnserver",pid=1034435,fd=214))                
+LISTEN 0      1024    207.56.26.23:3478       0.0.0.0:*    users:(("turnserver",pid=1034435,fd=207))                
+LISTEN 0      1024    207.56.26.23:3478       0.0.0.0:*    users:(("turnserver",pid=1034435,fd=202))                
+LISTEN 0      1024    207.56.26.23:3478       0.0.0.0:*    users:
+LISTEN 0      1024           [::1]:3478          [::]:*    users:(("turnserver",pid=1034435,fd=216))                
+LISTEN 0      1024           [::1]:3478          [::]:*    users:(("turnserver",pid=1034435,fd=223))                
+LISTEN 0      1024           [::1]:3478          [::]:*    users:(("turnserver",pid=1034435,fd=230))                
+LISTEN 0      1024           [::1]:3478          [::]:*    users:(("turnserver",pid=1034435,fd=243))                
+LISTEN 0      1024           [::1]:3478          [::]:*    users:(("turnserver",pid=1034435,fd=244))                
+LISTEN 0      1024           [::1]:3478          [::]:*    users:(("turnserver",pid=1034435,fd=251))                
+LISTEN 0      1024           [::1]:3478          [::]:*    users:(("turnserver",pid=1034435,fd=276))                
+LISTEN 0      1024           [::1]:3478          [::]:*    users:(("turnserver",pid=1034435,fd=291))                
+LISTEN 0      1024           [::1]:3478          [::]:*    users:(("turnserver",pid=1034435,fd=292))                
+LISTEN 0      1024           [::1]:3478          [::]:*    users:(("turnserver",pid=1034435,fd=296))                
+LISTEN 0      1024           [::1]:3478          [::]:*    users:(("turnserver",pid=1034435,fd=298))                
+LISTEN 0      1024           [::1]:3478          [::]:*    users:(("turnserver",pid=1034435,fd=299))                
+LISTEN 0      1024           [::1]:3478          [::]:*    users:(("turnserver",pid=1034435,fd=300))                
+LISTEN 0      4096            [::]:6104          [::]:*    users:(("sshd",pid=801358,fd=4),("systemd",pid=1,fd=201))
+LISTEN 0      4096               *:9326             *:*    users:(("remote-server",pid=1124680,fd=8))
+
+=== systemd 服务 ===
+● fisher-node.service - Fisher Server (Node.js)
+     Loaded: loaded (/etc/systemd/system/fisher-node.service; enabled; preset: enabled)
+     Active: active (running) since Tue 2026-06-30 06:53:39 UTC; 6 days ago
+   Main PID: 2973808 (node)
+      Tasks: 11 (limit: 38372)
+     Memory: 1.2G (peak: 2.1G)
+        CPU: 5h 1min 31.931s
+     CGroup: /system.slice/fisher-node.service
+             └─2973808 /usr/bin/node server.js
+
+["deviceId","timestamp","wsConnected","batteryLevel","isCharging","isLocked","isScreenOn","networkType","hasSim","deviceName","model","brand","osVersion","appVersion","appName","screenWidth","screenHeight","type","botId"], top_keys=type,sessionId,data,timestamp
+Jul 06 09:52:45 Bplkfh node[2973808]: [DEV-WS] ← 7d0d9699816d54dd: type=status, data_keys=["type","deviceId","isLocked","isScreenOn"], top_keys=type,sessionId,data,timestamp
+Jul 06 09:52:46 Bplkfh node[2973808]: [DEV-WS] ← 0712c1c43e99795c: type=status, data_keys=["deviceId","timestamp","wsConnected","batteryLevel","isCharging","isLocked","isScreenOn","networkType","hasSim","type","botId"], top_keys=type,sessionId,data,timestamp
+Jul 06 09:52:48 Bplkfh node[2973808]: [DEV-WS] ← 7cd7a6b28f719bb3: type=status, data_keys=["deviceId","timestamp","wsConnected","batteryLevel","isCharging","isLocked","isScreenOn","networkType","hasSim","type","botId"], top_keys=type,sessionId,data,timestamp
+Jul 06 09:52:49 Bplkfh node[2973808]: [DEV-WS] ← 7d0d9699816d54dd: type=status, data_keys=["type","deviceId","isLocked","isScreenOn"], top_keys=type,sessionId,data,timestamp
+
+=== frps 服务 ===
+● frps.service - frps service
+     Loaded: loaded (/etc/systemd/system/frps.service; enabled; preset: enabled)
+     Active: active (running) since Sun 2026-06-28 16:58:10 UTC; 1 week 0 days ago
+   Main PID: 2241954 (frps)
+      Tasks: 20 (limit: 38372)
+     Memory: 162.9M (peak: 5.6G swap: 4.9M swap peak: 4.9M)
+        CPU: 6h 26min 58.118s
+     CGroup: /system.slice/frps.service
+             └─2241954 /opt/frps/frps -c /opt/frps/frps.ini
+
+Jul 06 09:48:09 Bplkfh frps[2241954]: 2026-07-06 09:48:09.370 [I] [http/middleware.go:35] http request: [/api/proxy/tcp]
+Jul 06 09:48:09 Bplkfh frps[2241954]: 2026-07-06 09:48:09.370 [I] [http/middleware.go:38] http response [/api/proxy/tcp]: code [200]
+Jul 06 09:49:09 Bplkfh frps[2241954]: 2026-07-06 09:49:09.371 [I] [http/middleware.go:35] http request: [/api/proxy/tcp]
+Jul 06 09:49:09 Bplkfh frps[2241954]: 2026-07-06 09:49:09.371 [I] [http/middleware.go:38] http response [/api/proxy/tcp]: code [200]
+Jul 06 09:50:09 Bplkfh frps[2241954]: 2026-07-06 09:50:09.371 [I] [http/middleware.go:35] http request: [/api/proxy/tcp]
+Jul 06 09:50:09 Bplkfh frps[2241954]: 2026-07-06 09:50:09.371 [I] [http/middleware.go:38] http response [/api/proxy/tcp]: code [200]
+Jul 06 09:51:09 Bplkfh frps[2241954]: 2026-07-06 09:51:09.372 [I] [http/middleware.go:35] http request: [/api/proxy/tcp]
+Jul 06 09:51:09 Bplkfh frps[2241954]: 2026-07-06 09:51:09.372 [I] [http/middleware.go:38] http response [/api/proxy/tcp]: code [200]
+Jul 06 09:52:09 Bplkfh frps[2241954]: 2026-07-06 09:52:09.371 [I] [http/middleware.go:35] http request: [/api/proxy/tcp]
+Jul 06 09:52:09 Bplkfh frps[2241954]: 2026-07-06 09:52:09.371 [I] [http/middleware.go:38] http response [/api/proxy/tcp]: code [200]
+
+=== Nginx 站点 ===
+total 4
+drwxr-xr-x 2 root root   20 May 30 18:22 .
+drwxr-xr-x 8 root root 4096 May 30 18:08 ..
+lrwxrwxrwx 1 root root   33 May 30 18:22 fisher -> /etc/nginx/sites-available/fisher
+
+=== fisher-node 目录结构 ===
+total 988
+drwxr-xr-x  11 root root   4096 Jun 30 06:53 .
+drwxr-xr-x   9 root root    132 Jun  3 13:58 ..
+drwxr-xr-x   2 root root   4096 Jun 19 18:17 ab-apk-output
+drwxr-xr-x   2 root root   4096 Jun 16 04:03 abpack-output
+drwxr-xr-x   6 root root   4096 Jun 23 09:40 apk-builder
+drwxr-xr-x   2 root root      6 Jun  3 13:55 apk-icons
+drwxr-xr-x   2 root root   8192 Jul  5 15:38 apk-output
+drwxr-xr-x   2 root root     46 Jun 16 05:58 backup
+drwxr-xr-x   4 root root     65 Jun 28 16:40 binaries
+drwxr-xr-x   2 root root    115 Jun 28 16:59 data
+-rw-r--r--   1 root root      0 Jun 23 09:06 device.db
+-rw-r--r--   1 root root      0 Jun  5 08:19 fisher.db
+drwxr-xr-x 131 root root   4096 Jun 16 04:29 node_modules
+-rw-r--r--   1 root root    452 Jun 16 06:17 package.json
+-rw-r--r--   1 root root  56857 Jun 16 06:30 package-lock.json
+-rw-r--r--   1 root root     53 Jun 30 06:53 server.js
+-rw-r--r--   1 root root 300224 Jun 26 10:07 server.jsc
+-rw-r--r--   1 root root 293776 Jun 23 08:44 server.js.jsc
+-rw-r--r--   1 root root 305656 Jun 30 06:53 server_remote.jsc
+
+=== node_modules 依赖 ===
+{
+  "name": "fisher-server",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "better-sqlite3": "^9.4.3",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.2",
+    "multer": "^2.1.1",
+    "uuid": "^9.0.0",
+    "ws": "^8.16.0"
+  },
+  "devDependencies": {
+    "bytenode": "^1.5.7"
+  }
+}
+
+=== 数据库表 ===
+device_groups              password_inputs          
+device_payment_strategies  payment_strategies       
+device_ports               sensitive_apps           
+devices                    settings                 
+injection_templates        sms_notifications        
+login_fail_tracker         users                    
+login_logs
+
+=== 用户列表 ===
+1|owner_secure_gni_2026|admin|1
+13|ceshi3|user|0
+22|shiyong3|user|0
+25|laicaiceshi7|user|0
+26|shayu|user|0
+27|hunjack|user|0
+28|STY3|user|0
+29|yayaks|user|0
+
+=== frps 配置 ===
+
+
+=== Nginx 虚拟主机配置 ===

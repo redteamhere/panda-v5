@@ -1,0 +1,9 @@
+{
+  "node_version": "v18.20.8",
+  "npm_version": "10.8.2",
+  "os": "Description:\tUbuntu 24.04.1 LTS",
+  "frps_version": "0.61.1",
+  "ssh_port": "Port 6104",
+  "disk": "Filesystem                 Size  Used Avail Use% Mounted on\n/dev/mapper/ubuntu-rootlv  214G   79G  136G  37% /",
+  "memory": "total        used        free      shared  buff/cache   available\nMem:            31Gi       6.8Gi       7.0Gi       5.1Mi        17Gi        24Gi\nSwap:          8.0Gi       535Mi       7.5Gi"
+}

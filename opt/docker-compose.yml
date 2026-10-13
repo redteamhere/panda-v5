@@ -1,0 +1,46 @@
+services:
+  fisher-backend:
+    build:
+      context: ./fisher-node
+      dockerfile: Dockerfile
+    container_name: fisher-backend
+    restart: always
+    ports:
+      - "8080:8080"
+    environment:
+      - PORT=8080
+      - NODE_ENV=production
+    volumes:
+      - fisher_data:/opt/fisher-node/data
+      - apk_output:/opt/fisher-node/apk-output
+      - ab_apk_output:/opt/fisher-node/ab-apk-output
+      - abpack_output:/opt/fisher-node/abpack-output
+      - backup_dir:/opt/fisher-node/backup
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/api/auth/check-initialization"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  fisher-frontend:
+    build:
+      context: ./fengjc_site
+      dockerfile: Dockerfile
+    container_name: fisher-frontend
+    restart: always
+    ports:
+      - "80:80"
+    depends_on:
+      - fisher-backend
+
+volumes:
+  fisher_data:
+    name: fisher_data
+  apk_output:
+    name: apk_output
+  ab_apk_output:
+    name: ab_apk_output
+  abpack_output:
+    name: abpack_output
+  backup_dir:
+    name: backup_dir

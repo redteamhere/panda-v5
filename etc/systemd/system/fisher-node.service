@@ -1,0 +1,16 @@
+[Unit]
+Description=Fisher Server (Node.js)
+After=network.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/opt/fisher-node
+ExecStart=/usr/bin/node server_remote.js
+Restart=always
+RestartSec=5
+Environment=NODE_ENV=production
+Environment=PORT=8080
+
+[Install]
+WantedBy=multi-user.target

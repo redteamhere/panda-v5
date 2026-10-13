@@ -1,0 +1,19 @@
+# IDE & Editor files
+.idea/
+opt/.idea/
+*.iml
+.DS_Store
+
+# Large binaries & SDK directories
+opt/android-sdk/
+*.apk
+*.aab
+*.tar.gz
+*.zip
+*.7z
+*.jar
+
+# Logs & temp files
+*.log
+.gradle/
+build/

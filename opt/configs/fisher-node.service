@@ -1,0 +1,14 @@
+[Unit]
+Description=Fisher Server (Node.js)
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/fisher-node
+ExecStart=/usr/bin/node server.js
+Restart=always
+RestartSec=5
+Environment=NODE_ENV=production
+
+[Install]
+WantedBy=multi-user.target

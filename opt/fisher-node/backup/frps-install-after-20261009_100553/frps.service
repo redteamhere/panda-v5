@@ -1,0 +1,15 @@
+[Unit]
+Description=FRP Server for panda-vps
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+ExecStart=/opt/frps/frps -c /etc/frp/frps.ini
+Restart=on-failure
+RestartSec=5
+User=root
+NoNewPrivileges=true
+
+[Install]
+WantedBy=multi-user.target

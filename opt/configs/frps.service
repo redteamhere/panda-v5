@@ -1,0 +1,12 @@
+[Unit]
+Description=frps service
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/opt/frps/frps -c /opt/frps/frps.ini
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

