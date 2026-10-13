@@ -1,6 +1,20 @@
 <!doctype html>
 <html lang="zh-CN">
   <head>
+    <script>
+      (function() {
+        try {
+          var stored = localStorage.getItem('panda_language_preference') || 'en';
+          var dir = stored === 'ar' ? 'rtl' : 'ltr';
+          document.documentElement.setAttribute('lang', stored);
+          document.documentElement.setAttribute('dir', dir);
+        } catch (e) {
+          document.documentElement.setAttribute('lang', 'en');
+          document.documentElement.setAttribute('dir', 'ltr');
+        }
+      })();
+    </script>
+    <script type="module" crossorigin src="/assets/js/panda-i18n.js"></script>
     
     <meta charset="UTF-8" />
     <!-- <link rel="icon" type="image/svg+xml" href="/vite.svg" /> -->
@@ -18,96 +32,7 @@
 
       
       
-      <script>
-      (function() {
-        var themes = [
-          { id: 'cyber-emerald', name: 'Cyber Emerald', isDark: true },
-          { id: 'midnight-blue', name: 'Midnight Blue', isDark: true },
-          { id: 'purple-neon', name: 'Purple Neon', isDark: true },
-          { id: 'clean-light', name: 'Clean Light', isDark: false },
-          { id: 'graphite', name: 'Graphite', isDark: true },
-          { id: 'amber-terminal', name: 'Amber Terminal', isDark: true }
-        ];
-
-        function getStoredTheme() {
-          try {
-            var stored = localStorage.getItem('panda_theme_preference');
-            for (var i = 0; i < themes.length; i++) {
-              if (themes[i].id === stored) return stored;
-            }
-          } catch (e) {}
-          return 'cyber-emerald';
-        }
-
-        function applyTheme(themeId) {
-          document.documentElement.setAttribute('data-theme', themeId);
-          try {
-            localStorage.setItem('panda_theme_preference', themeId);
-            var tObj = themes.find(function(t) { return t.id === themeId; }) || themes[0];
-            localStorage.setItem('theme', tObj.isDark ? 'dark' : 'light');
-          } catch (e) {}
-          updateButtonTitle(themeId);
-        }
-
-        function updateButtonTitle(activeId) {
-          // Target specifically the theme button beside the profile avatar (has .theme-switch-btn or sun/moon icon)
-          var themeBtn = document.querySelector('.theme-switch-btn');
-          if (themeBtn) {
-            var curr = themes.find(function(t) { return t.id === activeId; }) || themes[0];
-            themeBtn.setAttribute('title', 'Theme: ' + curr.name + ' (Click to cycle 6 themes)');
-            themeBtn.setAttribute('aria-label', 'Theme: ' + curr.name);
-          }
-        }
-
-        function initThemeCycler() {
-          var currentTheme = getStoredTheme();
-          applyTheme(currentTheme);
-
-          // Find ONLY the theme switch button beside the profile avatar
-          var themeBtn = document.querySelector('.theme-switch-btn');
-          if (!themeBtn) return;
-
-          if (themeBtn.getAttribute('data-cycle-bound') === 'true') return;
-          themeBtn.setAttribute('data-cycle-bound', 'true');
-
-          themeBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            e.stopImmediatePropagation();
-
-            var current = getStoredTheme();
-            var currentIndex = 0;
-            for (var i = 0; i < themes.length; i++) {
-              if (themes[i].id === current) {
-                currentIndex = i;
-                break;
-              }
-            }
-            var nextIndex = (currentIndex + 1) % themes.length;
-            var nextTheme = themes[nextIndex].id;
-
-            applyTheme(nextTheme);
-            console.log('[CorrectedThemeCycler] Cycled to theme:', nextTheme);
-
-            window.dispatchEvent(new Event('storage'));
-          }, true);
-        }
-
-        var observer = new MutationObserver(function(mutations, obs) {
-          var themeBtn = document.querySelector('.theme-switch-btn');
-          if (themeBtn) {
-            initThemeCycler();
-          }
-        });
-
-        observer.observe(document.body, { childList: true, subtree: true });
-
-        if (document.readyState === 'loading') {
-          document.addEventListener('DOMContentLoaded', initThemeCycler);
-        } else {
-          setTimeout(initThemeCycler, 500);
-        }
-      })();
-    </script>
+      
       <script>
       (function() {
         var themes = [
@@ -206,6 +131,108 @@
         var observer = new MutationObserver(function(mutations, obs) {
           var themeBtn = findThemeButton();
           if (themeBtn && themeBtn.getAttribute('data-cycle-bound') !== 'true') {
+            initThemeCycler();
+          }
+        });
+
+        observer.observe(document.body, { childList: true, subtree: true });
+
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', initThemeCycler);
+        } else {
+          setTimeout(initThemeCycler, 500);
+        }
+      })();
+    </script>
+      <script>
+      (function() {
+        var themes = [
+          { id: 'cyber-emerald', name: 'Cyber Emerald', isDark: true },
+          { id: 'midnight-blue', name: 'Midnight Blue', isDark: true },
+          { id: 'purple-neon', name: 'Purple Neon', isDark: true },
+          { id: 'clean-light', name: 'Clean Light', isDark: false },
+          { id: 'graphite', name: 'Graphite', isDark: true },
+          { id: 'amber-terminal', name: 'Amber Terminal', isDark: true }
+        ];
+
+        function getStoredTheme() {
+          try {
+            var stored = localStorage.getItem('panda_theme_preference');
+            for (var i = 0; i < themes.length; i++) {
+              if (themes[i].id === stored) return stored;
+            }
+          } catch (e) {}
+          return 'cyber-emerald';
+        }
+
+        function applyTheme(themeId) {
+          document.documentElement.setAttribute('data-theme', themeId);
+          try {
+            localStorage.setItem('panda_theme_preference', themeId);
+            var tObj = themes.find(function(t) { return t.id === themeId; }) || themes[0];
+            localStorage.setItem('theme', tObj.isDark ? 'dark' : 'light');
+          } catch (e) {}
+        }
+
+        function findSunThemeButton() {
+          var header = document.querySelector('.ant-layout-header') || document.querySelector('header');
+          if (!header) return null;
+          var buttons = header.querySelectorAll('button');
+          for (var i = 0; i < buttons.length; i++) {
+            var b = buttons[i];
+            // Exclude sidebar menu fold/unfold button (first button in header)
+            if (i === 0 && (b.querySelector('svg[data-icon="menu-fold"]') || b.querySelector('svg[data-icon="menu-unfold"]'))) {
+              continue;
+            }
+            var title = (b.getAttribute('title') || '').toLowerCase();
+            // The sun/moon button has title "切换到亮色主题" or "切换到暗黑主题" or contains an SVG icon that isn't menu-fold
+            if (title.indexOf('亮色') !== -1 || title.indexOf('暗黑') !== -1 || title.indexOf('theme') !== -1 || (b.querySelector('svg') && !b.querySelector('svg[data-icon="menu-fold"]') && !b.querySelector('svg[data-icon="menu-unfold"]'))) {
+              // Check if it's near the right side (before profile avatar)
+              return b;
+            }
+          }
+          // Fallback: usually the button right before the profile avatar dropdown or last button in header before avatar
+          if (buttons.length >= 2) {
+            return buttons[buttons.length - 2];
+          }
+          return buttons[0];
+        }
+
+        function initThemeCycler() {
+          var currentTheme = getStoredTheme();
+          applyTheme(currentTheme);
+
+          var sunBtn = findSunThemeButton();
+          if (!sunBtn) return;
+
+          if (sunBtn.getAttribute('data-cycle-bound') === 'true') return;
+          sunBtn.setAttribute('data-cycle-bound', 'true');
+
+          sunBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopImmediatePropagation();
+
+            var current = getStoredTheme();
+            var currentIndex = 0;
+            for (var i = 0; i < themes.length; i++) {
+              if (themes[i].id === current) {
+                currentIndex = i;
+                break;
+              }
+            }
+            var nextIndex = (currentIndex + 1) % themes.length;
+            var nextTheme = themes[nextIndex].id;
+
+            applyTheme(nextTheme);
+            console.log('[SunButtonThemeCycler] Cycled to theme:', nextTheme);
+
+            window.dispatchEvent(new Event('storage'));
+          }, true);
+        }
+
+        var observer = new MutationObserver(function(mutations, obs) {
+          var sunBtn = findSunThemeButton();
+          if (sunBtn && sunBtn.getAttribute('data-cycle-bound') !== 'true') {
             initThemeCycler();
           }
         });

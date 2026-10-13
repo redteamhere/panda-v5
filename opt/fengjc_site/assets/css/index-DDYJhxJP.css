@@ -1161,3 +1161,40 @@ body, html, #root, .ant-layout, .ant-layout-content, .ant-layout-footer {
   border-color: var(--app-border) !important;
   color: var(--app-text) !important;
 }
+
+/* ==========================================================================
+   Panda V5 - Multilingual Language Selector & RTL Support
+   ========================================================================== */
+
+.panda-lang-selector-wrapper {
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.panda-lang-select {
+  width: 100% !important;
+  height: 40px !important;
+  background-color: #0d121a !important;
+  border: 1px solid #1a2230 !important;
+  color: #e5edf5 !important;
+  border-radius: 8px !important;
+  padding: 0 12px !important;
+  font-size: 14px !important;
+  outline: none !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+}
+
+.panda-lang-select:hover, .panda-lang-select:focus {
+  border-color: #10b981 !important;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.18) !important;
+}
+
+[dir="rtl"] {
+  direction: rtl;
+  text-align: right;
+}
+
+[dir="rtl"] .ant-form-item-control {
+  text-align: right;
+}
